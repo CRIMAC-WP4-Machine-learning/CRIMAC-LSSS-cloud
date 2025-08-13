@@ -1,24 +1,10 @@
 # CRIMAC-LSSS-cloud
 
-Docker image for running LSSS in the cloud with a web-based desktop (noVNC).
-
-## Build the container image
-```sh
-docker build -t lsss-novnc .
-```
-
-## Run with Docker
-```sh
-docker run -d \
-  -p 8080:6080 \
-  -p 5900:5900 \
-  -e SCREEN_RESOLUTION=1366x768 \
-  --name lsss-novnc \
-  lsss-novnc
-```
+Docker image for running LSSS in with a web-based desktop (noVNC).
 
 ## Run with Docker Compose
 Edit `docker-compose.yml` as needed, then run:
+
 ```sh
 docker compose up -d
 ```
@@ -32,7 +18,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:6080" # HTTP Web user interface via noVNC
+      - "8080:6080" # HTTP Web user interface
       - "5900:5900" # Optional, VNC server port
     environment:
       - SCREEN_RESOLUTION=1366x768
@@ -47,6 +33,14 @@ services:
 - Open [http://localhost:8080/](http://localhost:8080/) in your browser. You will be redirected to the noVNC client.
 - The desktop resolution can be set with the `SCREEN_RESOLUTION` environment variable (default: 1366x768).
 - To connect with a VNC client, use port 5900.
+
+## Scaling the resolution to fit the browser window.
+
+- Open the noVNC pop-out and select settings
+- Check the Clip to Window
+- Set the Scaling Mode to Remote Resizing
+
+![Screenshot](novnc-screenshot.png)
 
 ## Notes
 - The container will auto-start LSSS and provide an Openbox desktop environment.
