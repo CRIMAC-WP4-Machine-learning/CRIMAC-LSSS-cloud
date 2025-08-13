@@ -1,1 +1,0 @@
-Example folders to map in docker-compose.yml
