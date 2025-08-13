@@ -2,6 +2,22 @@
 
 Docker image for running LSSS in with a web-based desktop (noVNC).
 
+## Run with Docker
+
+```sh
+docker build -t lsss-novnc .
+docker run -d \
+  --name lsss-novnc \
+  -p 8080:6080 \
+  -p 5900:5900 \
+  -e SCREEN_RESOLUTION=1366x768 \
+  -v "$(pwd)/lsss:/lsss" \
+  -v "$(pwd)/path/to/datastore1:/lsss/datastore1" \
+  -v "$(pwd)/path/to/datastore2:/lsss/datastore2" \
+  --restart unless-stopped \
+  lsss-novnc
+```
+
 ## Run with Docker Compose
 Edit `docker-compose.yml` as needed, then run:
 
