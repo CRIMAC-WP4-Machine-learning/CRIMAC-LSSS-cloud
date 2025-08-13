@@ -42,7 +42,7 @@ COPY openbox/rc.xml /etc/xdg/openbox/rc.xml
 COPY openbox/autostart /etc/xdg/openbox/autostart
 
 # Redirect / to vnc.html in noVNC
-COPY index.html /usr/share/novnc/index.html
+COPY novnc/index.html /usr/share/novnc/index.html
 
 # Create user 'lsss' with home /lsss
 RUN useradd -m -d /lsss -s /bin/zsh lsss
