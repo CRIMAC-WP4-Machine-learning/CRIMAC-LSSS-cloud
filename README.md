@@ -1,11 +1,22 @@
 # CRIMAC-LSSS-cloud
 
-Docker image for running LSSS in with a web-based desktop (noVNC).
+Docker image for running LSSS "Large Scale Survey System" (L-triple-S) in a web-based desktop (noVNC).
+
+https://www.marec.no/products.htm
 
 ## Run with Docker
 
 ```sh
-docker build -t lsss-novnc .
+IMAGE="ghcr.io/crimac-wp4-machine-learning/lsss-novnc"
+TAG="latest"
+
+# Try to pull the image
+if ! docker pull $IMAGE:$TAG; then
+  echo "Remote image not available. Building locally..."
+  docker build -t $IMAGE:$TAG .
+fi
+
+# Run the container
 docker run -d \
   --name lsss-novnc \
   -p 8080:6080 \
@@ -15,21 +26,23 @@ docker run -d \
   -v "$(pwd)/path/to/datastore1:/lsss/datastore1" \
   -v "$(pwd)/path/to/datastore2:/lsss/datastore2" \
   --restart unless-stopped \
-  lsss-novnc
+  $IMAGE:$TAG
 ```
 
 ## Run with Docker Compose
-Edit `docker-compose.yml` as needed, then run:
+Edit [docker-compose.yml](docker/docker-compose.yml) as needed, then run:
 
 ```sh
 docker compose up -d
 ```
 
-### Example [docker-compose.yml](docker/docker-compose.yml)
+### Example docker-compose.yml
+
 ```yaml
 services:
   lsss-novnc:
     container_name: lsss-novnc
+    image: ghcr.io/crimac-wp4-machine-learning/lsss-novnc:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -46,19 +59,19 @@ services:
 ```
 
 ## Access the desktop
-- Open [http://localhost:8080/](http://localhost:8080/) in your browser. You will be redirected to the noVNC client.
-- The desktop resolution can be set with the `SCREEN_RESOLUTION` environment variable (default: 1366x768).
+- Open [**http://localhost:8080/**](http://localhost:8080/) in your browser. You will be redirected to the noVNC client.
+- Desktop resolution can be modified with the `SCREEN_RESOLUTION` environment variable
 - To connect with a VNC client, use port 5900.
 
 ## Scaling the resolution to fit the browser window.
 
-- Open the noVNC pop-out and select settings
-- Check the Clip to Window
-- Set the Scaling Mode to Remote Resizing
+- Open the **noVNC pop-out** on the left side and click on the **gear icon**
+- Check the **Clip to Window**
+- Set the Scaling Mode to **Remote Resizing**
 
 ![Screenshot](novnc-screenshot.png)
 
 ## Notes
 - The container will auto-start LSSS and provide an Openbox desktop environment.
-- You can right-click the desktop for the Openbox menu (including a terminal emulator).
+- You can right-click the desktop for a limited Openbox menu (including a terminal emulator).
 - Data directories can be mounted using the `volumes` section in Docker Compose.
