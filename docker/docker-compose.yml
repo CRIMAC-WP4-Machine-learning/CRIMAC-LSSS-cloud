@@ -1,6 +1,7 @@
 services:
   lsss-novnc:
     container_name: lsss-novnc
+    image: ghcr.io/crimac-wp4-machine-learning/lsss-novnc:latest
     build:
       context: .
       dockerfile: Dockerfile
