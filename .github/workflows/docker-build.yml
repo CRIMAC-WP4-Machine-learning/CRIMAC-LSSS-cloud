@@ -25,9 +25,14 @@ jobs:
       - name: Set lowercase owner
         run: echo "OWNER_LC=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
 
+      - name: Set image tag
+        run: echo "IMAGE_TAG=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: docker
           push: true
-          tags: ghcr.io/${{ env.OWNER_LC }}/lsss-vnc:latest
+          tags: |
+            ghcr.io/${{ env.OWNER_LC }}/lsss-novnc:${{ env.IMAGE_TAG }},
+            ghcr.io/${{ env.OWNER_LC }}/lsss-novnc:latest
