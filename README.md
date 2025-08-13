@@ -25,7 +25,7 @@ Edit `docker-compose.yml` as needed, then run:
 docker compose up -d
 ```
 
-### Example docker-compose.yml
+### Example [docker-compose.yml](docker/docker-compose.yml)
 ```yaml
 services:
   lsss-novnc:
