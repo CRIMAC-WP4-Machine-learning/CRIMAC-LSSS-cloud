@@ -1,0 +1,16 @@
+services:
+  lsss-novnc:
+    container_name: lsss-novnc
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:6080" # HTTP Web user interface
+      - "5900:5900" # Optional, VNC server port
+    environment:
+      - SCREEN_RESOLUTION=1366x768
+    volumes:
+      - ./lsss:/lsss # Main LSSS directory
+      - ./path/to/datastore1:/lsss/datastore1 # Optional 1, replace with actual path
+      - ./path/to/datastore2:/lsss/datastore2 # Optional 2, replace with actual path
+    restart: unless-stopped

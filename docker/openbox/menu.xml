@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openbox_menu>
+  <menu id="root-menu" label="Openbox 3">
+    <item label="Terminal emulator">
+      <action name="Execute">
+        <execute>xterm</execute>
+      </action>
+    </item>
+    <separator />
+    <item label="ObConf">
+      <action name="Execute">
+        <execute>obconf</execute>
+      </action>
+    </item>
+    <item label="Restart">
+      <action name="Restart" />
+    </item>
+  </menu>
+</openbox_menu>
