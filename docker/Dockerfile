@@ -22,22 +22,30 @@ RUN apt-get update && apt-get install -y wget unzip \
     && mv $LSSS_INSTALL_DIR/lsss-$LSSS_VERSION $APPS_ROOT \
     && rm -rf $LSSS_INSTALL_DIR
 
+# Install required packages and tools
 RUN apt-get update && apt-get install -y \
     tigervnc-standalone-server \
     novnc \
     websockify \
     openbox \
+    tint2 \
     xterm \
+    zsh \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Set root password to 'rootpassword' (change as needed)
+# Commented out to avoid security issues in production
+# RUN echo 'root:rootpassword' | chpasswd
 
 COPY openbox/menu.xml /etc/xdg/openbox/menu.xml
 COPY openbox/rc.xml /etc/xdg/openbox/rc.xml
+COPY openbox/autostart /etc/xdg/openbox/autostart
 
 # Redirect / to vnc.html in noVNC
 COPY index.html /usr/share/novnc/index.html
 
 # Create user 'lsss' with home /lsss
-RUN useradd -m -d /lsss lsss
+RUN useradd -m -d /lsss -s /bin/zsh lsss
 USER lsss
 ENV HOME=/lsss
 WORKDIR /lsss
