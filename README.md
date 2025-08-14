@@ -22,6 +22,7 @@ docker run -d \
   -p 8080:6080 \
   -p 5900:5900 \
   -e SCREEN_RESOLUTION=1366x768 \
+  -v /etc/localtime:/etc/localtime:ro \
   -v "$(pwd)/lsss:/lsss" \
   -v "$(pwd)/path/to/datastore1:/lsss/datastore1" \
   -v "$(pwd)/path/to/datastore2:/lsss/datastore2" \
@@ -52,6 +53,7 @@ services:
     environment:
       - SCREEN_RESOLUTION=1366x768
     volumes:
+      - /etc/localtime:/etc/localtime:ro # Set the container's timezone to match the host
       - ./lsss:/lsss # Main LSSS directory
       - ./path/to/datastore1:/lsss/datastore1 # Optional 1, replace with actual path
       - ./path/to/datastore2:/lsss/datastore2 # Optional 2, replace with actual path
@@ -63,10 +65,9 @@ services:
 - Desktop resolution can be modified with the `SCREEN_RESOLUTION` environment variable
 - To connect with a VNC client, use port 5900.
 
-## Scaling the resolution to fit the browser window.
+## Scaling the resolution to fit the browser window (default)
 
 - Open the **noVNC pop-out** on the left side and click on the **gear icon**
-- Check the **Clip to Window**
 - Set the Scaling Mode to **Remote Resizing**
 
 ![Screenshot](novnc-screenshot.png)
