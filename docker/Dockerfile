@@ -14,10 +14,6 @@ RUN apt-get update && apt-get install -y \
     zsh vim nano \
     && rm -rf /var/lib/apt/lists/*
 
-# Set root password to 'rootpassword' (change as needed)
-# Commented out to avoid security issues in production
-# RUN echo 'root:rootpassword' | chpasswd
-
 # Copy desktop configuration files
 COPY openbox /etc/xdg/openbox
 COPY tint2 /etc/xdg/tint2
@@ -46,6 +42,10 @@ ENV DISPLAY=:0
 # Copy entrypoint script
 COPY start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
+
+# Set root password to 'rootpassword' (change as needed)
+# Commented out to avoid security issues in production
+#RUN echo 'root:rootpassword' | chpasswd
 
 # Create non-root user 'lsss' with home directory and zsh shell
 ARG USER_NAME=lsss
