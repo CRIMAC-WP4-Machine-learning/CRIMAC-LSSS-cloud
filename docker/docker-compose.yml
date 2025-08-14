@@ -12,7 +12,9 @@ services:
       - SCREEN_RESOLUTION=1366x768
     volumes:
       - /etc/localtime:/etc/localtime:ro # Set the container's timezone to match the host
-      - ./lsss:/lsss # Main LSSS directory
-      - ./path/to/datastore1:/lsss/datastore1 # Optional 1, replace with actual path
-      - ./path/to/datastore2:/lsss/datastore2 # Optional 2, replace with actual path
+      - ./LSSS_HOME:/lsss:rw # lsss user home directory
+      - ./LSSS_CONFIG:/lsss/.ApplicationData/lsss:rw # LSSS ApplicationData directory
+      - ./LSSS_DATA:/lsss/LSSS_DATA:rw # LSSS_DATA directory
+      - ./path/to/datastore1:/lsss/datastore1:ro # Optional 1, replace with actual path for read-only access
+      - ./path/to/datastore2:/lsss/datastore2:rw # Optional 2, replace with actual path for read-write access
     restart: unless-stopped

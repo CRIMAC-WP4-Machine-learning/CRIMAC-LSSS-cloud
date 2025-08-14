@@ -1,3 +1,4 @@
 docker/lsss/
-docker/path/to
+docker/LSSS_*
+docker/path*
 azurecontainer.sh

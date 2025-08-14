@@ -4,9 +4,35 @@ Docker image for running LSSS "Large Scale Survey System" (L-triple-S) in a web-
 
 https://www.marec.no/products.htm
 
-## Run with Docker
+## Run with Docker Compose
+Edit [docker-compose.yml](docker/docker-compose.yml) as needed, then run:
 
 ```sh
+docker compose up -d
+```
+
+## Access the desktop
+- Open [**http://localhost:8080/**](http://localhost:8080/) in your browser.
+- Or connect with a VNC client on port 5900.
+
+## Notes
+- The container will auto-start LSSS and provide an Openbox desktop environment.
+- When LSSS application is terminated it will start up again.
+- Terminal emulator is available by right clicking the desktop
+- Data directories can be mounted using the `volumes` section in Docker Compose.
+- noVNC default resolution can be modified with the `SCREEN_RESOLUTION` environment variable, only needed when using Local Scaling
+- noVNC use Remote Resizing as default so it always fit into the browser window
+- noVNC settings can be adjusted from the pop-out menu at the left side, under the gear icon.
+
+![Screenshot](novnc-screenshot.png)
+
+## Run with Docker
+
+This script will first try to use the pre-built image at ghcr.io and if you do not have access it will build it locally.
+
+```bash
+#!/bin/bash
+
 IMAGE="ghcr.io/crimac-wp4-machine-learning/lsss-novnc"
 TAG="latest"
 
@@ -23,56 +49,11 @@ docker run -d \
   -p 5900:5900 \
   -e SCREEN_RESOLUTION=1366x768 \
   -v /etc/localtime:/etc/localtime:ro \
-  -v "$(pwd)/lsss:/lsss" \
+  -v "$(pwd)/LSSS_HOME:/lsss:rw" \
+  -v "$(pwd)/LSSS_CONFIG:/lsss/.ApplicationData/lsss:rw" \
+  -v "$(pwd)/LSSS_DATA:/lsss/LSSS_DATA:rw" \
   -v "$(pwd)/path/to/datastore1:/lsss/datastore1" \
   -v "$(pwd)/path/to/datastore2:/lsss/datastore2" \
   --restart unless-stopped \
   $IMAGE:$TAG
 ```
-
-## Run with Docker Compose
-Edit [docker-compose.yml](docker/docker-compose.yml) as needed, then run:
-
-```sh
-docker compose up -d
-```
-
-### Example docker-compose.yml
-
-```yaml
-services:
-  lsss-novnc:
-    container_name: lsss-novnc
-    image: ghcr.io/crimac-wp4-machine-learning/lsss-novnc:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8080:6080" # HTTP Web user interface
-      - "5900:5900" # Optional, VNC server port
-    environment:
-      - SCREEN_RESOLUTION=1366x768
-    volumes:
-      - /etc/localtime:/etc/localtime:ro # Set the container's timezone to match the host
-      - ./lsss:/lsss # Main LSSS directory
-      - ./path/to/datastore1:/lsss/datastore1 # Optional 1, replace with actual path
-      - ./path/to/datastore2:/lsss/datastore2 # Optional 2, replace with actual path
-    restart: unless-stopped
-```
-
-## Access the desktop
-- Open [**http://localhost:8080/**](http://localhost:8080/) in your browser. You will be redirected to the noVNC client.
-- Desktop resolution can be modified with the `SCREEN_RESOLUTION` environment variable
-- To connect with a VNC client, use port 5900.
-
-## Scaling the resolution to fit the browser window (default)
-
-- Open the **noVNC pop-out** on the left side and click on the **gear icon**
-- Set the Scaling Mode to **Remote Resizing**
-
-![Screenshot](novnc-screenshot.png)
-
-## Notes
-- The container will auto-start LSSS and provide an Openbox desktop environment.
-- You can right-click the desktop for a limited Openbox menu (including a terminal emulator).
-- Data directories can be mounted using the `volumes` section in Docker Compose.
