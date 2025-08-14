@@ -61,8 +61,3 @@ WORKDIR $USER_HOME
 
 # Use script as CMD
 CMD ["/usr/local/bin/start.sh"]
-
-#CMD ["/bin/bash", "-c", "\
-#vncserver :0 -geometry $SCREEN_RESOLUTION -SecurityTypes None -xstartup /usr/bin/openbox-session & \
-#websockify --web=/usr/share/novnc/ 6080 localhost:5900 & \
-#while true; do /opt/lsss-$LSSS_VERSION/lsss/LSSS.sh; sleep 2; done"]
