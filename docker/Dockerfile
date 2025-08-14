@@ -37,9 +37,11 @@ RUN apt-get update && apt-get install -y \
 # Commented out to avoid security issues in production
 # RUN echo 'root:rootpassword' | chpasswd
 
+# Copy desktop configuration files
 COPY openbox/menu.xml /etc/xdg/openbox/menu.xml
 COPY openbox/rc.xml /etc/xdg/openbox/rc.xml
 COPY openbox/autostart /etc/xdg/openbox/autostart
+COPY tint2/tint2rc /etc/xdg/tint2/tint2rc
 
 # Redirect / to vnc.html in noVNC
 COPY novnc/index.html /usr/share/novnc/index.html
