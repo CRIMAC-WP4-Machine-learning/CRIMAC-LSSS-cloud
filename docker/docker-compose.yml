@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:6080" # HTTP Web user interface
-      - "5900:5900" # Optional, VNC server port
+      #- "5900:5900" # Optional, VNC server port
     environment:
       - SCREEN_RESOLUTION=1366x768
     volumes:
@@ -15,6 +15,6 @@ services:
       - ./LSSS_HOME:/lsss:rw # lsss user home directory
       - ./LSSS_CONFIG:/lsss/.ApplicationData/lsss:rw # LSSS ApplicationData directory
       - ./LSSS_DATA:/lsss/LSSS_DATA:rw # LSSS_DATA directory
-      - ./path/to/datastore1:/lsss/datastore1:ro # Optional 1, replace with actual path for read-only access
-      - ./path/to/datastore2:/lsss/datastore2:rw # Optional 2, replace with actual path for read-write access
+      #- ./path/to/datastore1:/lsss/datastore1:ro # Optional 1, replace with actual path for read-only access
+      #- ./path/to/datastore2:/lsss/datastore2:rw # Optional 2, replace with actual path for read-write access
     restart: unless-stopped
